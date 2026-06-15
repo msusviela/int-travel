@@ -94,6 +94,28 @@
                     placeholder="Actividades a hacer, detalles extra"
                   ></textarea>
                 </div>
+                <div class="col-md-6">
+                  <label for="accommodation-name" class="form-label">
+                    Alojamiento
+                  </label>
+                  <input
+                    id="accommodation-name"
+                    class="form-control"
+                    required
+                  />
+                </div>
+                <div class="col-md-6">
+                  <label for="accommodation-cost" class="form-label">
+                    Costo alojamiento
+                  </label>
+                  <input
+                    id="accommodation-cost"
+                    class="form-control"
+                    type="number"
+                    min="0"
+                    required
+                  />
+                </div>
                 <div class="col-12">
                   <button type="submit" class="btn btn-primary">
                     Agregar Ciudad
@@ -116,6 +138,8 @@
                     <th>Duración</th>
                     <th>Fecha ida</th>
                     <th>Fecha vuelta</th>
+                    <th>Alojamiento</th>
+                    <th>Costo alojamiento</th>
                     <th>Notas</th>
                   </tr>
                 </thead>

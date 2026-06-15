@@ -1,7 +1,6 @@
 import TripManager from "./domain/tripManager.js";
 import City from "./domain/city.js";
-// Como todavía no lo usamos lo dejo comentado para que pase el linter
-// import Accommodation from "./domain/accommodation.js";
+import Accommodation from "./domain/accommodation.js";
 
 const manager = new TripManager();
 const form = document.getElementById("city-form");
@@ -14,35 +13,58 @@ form.addEventListener("submit", (e) => {
 function renderCities() {
   citiesTbody.innerHTML = "";
   manager.getAllCities().forEach((city, i) => {
-    const tr = document.createElement("tr");
-    tr.dataset.index = String(i);
-    const dateFrom = formatDateIso(city.getDateFrom ? city.getDateFrom() : "");
-    const dateTo = formatDateIso(city.getDateTo ? city.getDateTo() : "");
-    const country = city.getCountry ? city.getCountry() || "" : "";
-    const duration = city.getDurationDays() ? city.getDurationDays() : "";
-    const notesText = city.getNotes ? String(city.getNotes() || "") : "";
-    const notesHtml = notesText
-      ? notesText
-      : '<span class="text-muted">Sin datos</span>';
-    tr.innerHTML = `<td>
-    <strong>${city.getName()}</strong>
-    </td>
-    <td>${country}</td>
-    <td>${duration ? duration + " días" : "—"}</td>
-    <td>${dateFrom}</td>
-    <td>${dateTo}</td>
-    <td>${notesHtml}</td>`;
-    citiesTbody.appendChild(tr);
+    const accommodation = city.getAccommodation();
+    renderCityRow(
+      i,
+      city.getName(),
+      city.getCountry(),
+      city.getDurationDays(),
+      formatDateIso(city.getDateFrom()),
+      formatDateIso(city.getDateTo()),
+      accommodation ? accommodation.getName() : "",
+      accommodation ? `$${accommodation.getCost()}` : "",
+      String(city.getNotes() || ""),
+    );
   });
+}
+
+function renderCityRow(
+  index,
+  name,
+  country,
+  duration,
+  dateFrom,
+  dateTo,
+  accommodationName,
+  accommodationCost,
+  notesText,
+) {
+  const tr = document.createElement("tr");
+  tr.dataset.index = String(index);
+  tr.innerHTML = `<td>
+  <strong>${name}</strong>
+  </td>
+  <td>${country}</td>
+  <td>${duration ? duration + " días" : "—"}</td>
+  <td>${dateFrom}</td>
+  <td>${dateTo}</td>
+  <td>${accommodationName}</td>
+  <td>${accommodationCost}</td>
+  <td>${notesText}</td>`;
+  citiesTbody.appendChild(tr);
 }
 
 function handleCityFormSubmit(e) {
   e.preventDefault();
-  let name = document.getElementById("city-name").value;
-  let country = document.getElementById("city-country").value;
-  let dateFrom = document.getElementById("city-date-from").value;
-  let dateTo = document.getElementById("city-date-to").value;
-  let notes = document.getElementById("city-notes").value;
+
+  const name = document.getElementById("city-name").value;
+  const country = document.getElementById("city-country").value;
+  const dateFrom = document.getElementById("city-date-from").value;
+  const dateTo = document.getElementById("city-date-to").value;
+  const notes = document.getElementById("city-notes").value;
+  const accommodationName = document.getElementById("accommodation-name").value;
+  const accommodationCost =
+    document.getElementById("accommodation-cost").valueAsNumber;
 
   const city = new City(
     name,
@@ -51,13 +73,24 @@ function handleCityFormSubmit(e) {
     new Date(dateTo),
     notes,
   );
-  if (!city) {
-    showToast("Error", "No se pudo crear la ciudad", "danger");
-    return;
-  }
+
+  city.addAccommodation(
+    new Accommodation(accommodationName, accommodationCost),
+  );
+
   if (!saveCity(city)) return;
   showToast("Éxito", "Ciudad agregada", "success");
-  renderCities();
+  renderCityRow(
+    manager.getAllCities().length - 1,
+    name,
+    country,
+    city.getDurationDays(),
+    formatDateIso(city.getDateFrom()),
+    formatDateIso(city.getDateTo()),
+    accommodationName,
+    `$${accommodationCost}`,
+    notes,
+  );
   form.reset();
   setDefaultDates();
 }
