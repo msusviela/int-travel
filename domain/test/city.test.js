@@ -91,6 +91,16 @@ describe("City", () => {
       expect(city.getDateTo()).toBe("2023-05-04");
     });
 
+    test("should validate current city date order", () => {
+      // Arrange
+      const act = () => city.validateDatesOrder();
+
+      // Act
+
+      // Assert
+      expect(act).not.toThrow();
+    });
+
     test("should throw error if dateFrom is invalid", () => {
       expect(() => city.setDateFrom("")).toThrow("dateFrom is required");
       expect(() => city.setDateFrom(null)).toThrow("dateFrom is required");
@@ -101,6 +111,42 @@ describe("City", () => {
       expect(() => city.setDateTo("")).toThrow("dateTo is required");
       expect(() => city.setDateTo(null)).toThrow("dateTo is required");
       expect(() => city.setDateTo(123)).toThrow("Date must be a Date object");
+    });
+
+    test("should throw error if dateFrom is missing in date order validation", () => {
+      // Arrange
+      const dateFrom = null;
+      const dateTo = new Date("2023-05-04");
+
+      // Act
+      const act = () => city.validateDatesOrder(dateFrom, dateTo);
+
+      // Assert
+      expect(act).toThrow("Both dateFrom and dateTo are required");
+    });
+
+    test("should throw error if dateFrom format is invalid", () => {
+      // Arrange
+      const dateFrom = "invalid-date";
+      const dateTo = new Date("2023-05-04");
+
+      // Act
+      const act = () => city.validateDatesOrder(dateFrom, dateTo);
+
+      // Assert
+      expect(act).toThrow("Invalid date format");
+    });
+
+    test("should throw error if dateTo is earlier than dateFrom", () => {
+      // Arrange
+      const dateFrom = new Date("2023-05-04");
+      const dateTo = new Date("2023-05-01");
+
+      // Act
+      const act = () => city.validateDatesOrder(dateFrom, dateTo);
+
+      // Assert
+      expect(act).toThrow("dateTo cannot be earlier than dateFrom");
     });
   });
 
@@ -144,6 +190,30 @@ describe("City", () => {
         new Date("2023-05-01"),
       );
       expect(singleDayCity.getDurationDays()).toBe(1);
+    });
+
+    test("should return 0 if internal date is invalid", () => {
+      // Arrange
+      const invalidDate = new Date("2023-05-01");
+      invalidDate.toISOString = () => "invalid-date";
+      city.setDateFrom(invalidDate);
+
+      // Act
+      const result = city.getDurationDays();
+
+      // Assert
+      expect(result).toBe(0);
+    });
+
+    test("should return 0 if dateFrom is later than dateTo", () => {
+      // Arrange
+      city.setDateFrom(new Date("2023-05-10"));
+
+      // Act
+      const result = city.getDurationDays();
+
+      // Assert
+      expect(result).toBe(0);
     });
   });
 

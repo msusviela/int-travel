@@ -31,4 +31,15 @@ describe("TripManager", () => {
     expect(manager.findCityByName("Lisbon").getName()).toBe("Lisbon");
     expect(manager.findCityByName("Unknown")).toBeNull();
   });
+
+  test("should throw error if added value is not a city", () => {
+    // Arrange
+    const invalidCity = { name: "Madrid" };
+
+    // Act
+    const act = () => manager.addCity(invalidCity);
+
+    // Assert
+    expect(act).toThrow("El parámetro debe ser una instancia de City");
+  });
 });
