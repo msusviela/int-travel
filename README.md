@@ -27,19 +27,19 @@ Ejemplo (desactivar GitHub Copilot en Visual Studio Code):
 - Los test unitarios se deben codificar en los archivos correspondientes `*.test.js`.
 - La cobertura de los test unitarios debe alcanzar 100 % de sentencias y ramas.
 - Ejecutar PADIS utilizando el comando `checkpadis` en GitHub Codespaces.
- 
 
 ## Parte A: Lógica de guardar alojamiento
 
 1. Implementar la clase Accommodation con las propiedades: name (string) y cost (number), y validar:
+
    - Que `cost` sea un número obligatorio mayor o igual a 0.
    - Que `name` sea obligatorio.
- 
+
 2. En la clase `City`, agregar el campo `accommodation` que almacena un objeto de la clase `Accommodation`.
+
    - Validar que el tipo de dato de `accommodation` en la clase `City` sea de la clase `Accommodation`
 
 3. Agregar la función `addAccommodation(accommodation)` en la clase `City` que permita agregar un alojamiento a la ciudad. Validar que el parámetro sea una instancia de la clase `Accommodation`.
-   
 4. Escribir tests en para cubrir las líneas de los puntos anteriores, incluyendo casos de éxito y error.
 
 5. Realizar commit y push de los cambios.
@@ -48,7 +48,7 @@ Ejemplo (desactivar GitHub Copilot en Visual Studio Code):
 
 ## Parte B: UI de Alojamiento
 
-1. Agregar dos nuevos campos en el formulario de la interfaz de usuario para agregar un alojamiento a una ciudad. 
+1. Agregar dos nuevos campos en el formulario de la interfaz de usuario para agregar un alojamiento a una ciudad.
 2. Al hacer clic en el botón de guardar, se debe validar que los campos no estén vacíos y que el costo sea un número mayor o igual a 0. Si la validación es exitosa, se debe agregar el alojamiento a la ciudad correspondiente y mostrarlo en la pestaña de destinos.
 3. Realizar commit y push de los cambios.
 4. Subir un issue con el título "Parte B" mostrando la nueva interfaz de usuario para agregar alojamientos.
@@ -70,7 +70,6 @@ En caso de realizar estos cambios subir un issue con el título "Extras" mostran
 3. Agregar un botón para eliminar todas las ciudades del viaje con una confirmación previa.
 4. Agregar dos cards en la parte superior de la interfaz que muestren el costo total del viaje (sumando los costos de alojamiento) y la duración total del viaje (sumando los días de cada ciudad). Implementar las funciones necesarias en la clase `TripManager`.
    > Tip 💡: Utilizar la función `getDurationDays()` de la clase City para obtener la duración de cada ciudad.
-
 
 ## Documentación
 
