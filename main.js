@@ -1,6 +1,7 @@
 import TripManager from "./domain/tripManager.js";
 import City from "./domain/city.js";
-import Accommodation from "./domain/accommodation.js";
+// Como todavía no lo usamos lo dejo comentado para que pase el linter
+// import Accommodation from "./domain/accommodation.js";
 
 const manager = new TripManager();
 const form = document.getElementById("city-form");

@@ -6,6 +6,7 @@ class City {
   #dateFrom;
   #dateTo;
   #notes = "";
+  #accommodation;
 
   constructor(cityName, country, dateFrom, dateTo, notes = "") {
     this.setName(cityName);
@@ -14,6 +15,17 @@ class City {
     this.setDateFrom(dateFrom);
     this.setDateTo(dateTo);
     this.setNotes(notes);
+  }
+
+  getAccommodation() {
+    return this.#accommodation;
+  }
+
+  setAccommodation(accommodation) {
+    if (!(accommodation instanceof Accommodation)) {
+      throw new Error("Accommodation must be an instance of Accommodation");
+    }
+    this.#accommodation = accommodation;
   }
 
   getCountry() {
@@ -94,7 +106,7 @@ class City {
     const diff = Math.round((b - a) / (1000 * 60 * 60 * 24)) + 1;
     return diff > 0 ? diff : 0;
   }
-  
+
   validateDatesOrder(dateFrom = this.#dateFrom, dateTo = this.#dateTo) {
     if (!dateFrom || !dateTo) {
       throw new Error("Both dateFrom and dateTo are required");
@@ -109,6 +121,10 @@ class City {
     }
     if (dateToParsed < dateFromParsed)
       throw new Error("dateTo cannot be earlier than dateFrom");
+  }
+
+  addAccommodation(accommodation) {
+    this.setAccommodation(accommodation);
   }
 }
 

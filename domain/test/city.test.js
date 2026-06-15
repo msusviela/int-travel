@@ -1,3 +1,4 @@
+import Accommodation from "../accommodation.js";
 import City from "../city.js";
 
 describe("City", () => {
@@ -101,8 +102,6 @@ describe("City", () => {
       expect(() => city.setDateTo(null)).toThrow("dateTo is required");
       expect(() => city.setDateTo(123)).toThrow("Date must be a Date object");
     });
-
-    // TODO: validar orden de fechas
   });
 
   describe("City notes", () => {
@@ -145,6 +144,26 @@ describe("City", () => {
         new Date("2023-05-01"),
       );
       expect(singleDayCity.getDurationDays()).toBe(1);
+    });
+  });
+
+  describe("Accommodation", () => {
+    test("should add accommodation correctly", () => {
+      const accommodation = new Accommodation("Hotel Central", 120);
+      city.addAccommodation(accommodation);
+      expect(city.getAccommodation()).toBe(accommodation);
+      expect(city.getAccommodation().getName()).toBe("Hotel Central");
+    });
+
+    test("should throw error if accommodation is not valid", () => {
+      // Acá setteamos un objeto que no es instancia de accomodation para ver si falla
+      expect(() => city.addAccommodation({ name: "Hotel", cost: 120 })).toThrow(
+        "Accommodation must be an instance of Accommodation",
+      );
+      // Se puede probar tambien que pasa si le paso null
+      expect(() => city.setAccommodation(null)).toThrow(
+        "Accommodation must be an instance of Accommodation",
+      );
     });
   });
 });
