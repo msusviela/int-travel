@@ -1,0 +1,26 @@
+body {
+  font-family:
+    system-ui,
+    Segoe UI,
+    Helvetica,
+    Arial,
+    sans-serif;
+  margin: 16px;
+}
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+label {
+  display: block;
+  margin: 8px 0;
+}
+ul#citiesList {
+  list-style: none;
+  padding: 0;
+}
+ul#citiesList li {
+  border: 1px solid #ddd;
+  padding: 8px;
+  margin: 6px 0;
+}
